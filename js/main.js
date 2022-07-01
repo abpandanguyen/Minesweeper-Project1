@@ -1,9 +1,11 @@
 /*----- constants -----*/
-
+const mine;
 
 
 
 /*----- app's state (variables) -----*/
+let minefield; // 
+let gameStatus; // null is game in play, -1 loss, 1 win
 
 
 
@@ -21,3 +23,14 @@
 
 
 /*----- functions -----*/
+init();
+
+function init() {
+
+
+    render();
+};
+
+function render() {
+
+};
