@@ -1,0 +1,26 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  #minefield {
+    display: grid;
+    grid-template-columns: repeat(8, 7vmin);
+    grid-template-rows: repeat(8, 7vmin);
+    gap: 0vmin;
+  }
+  
+  #minefield > div {
+    border: 0.5vmin solid black;
+    cursor: pointer;
+  }
+  
+  button {
+    margin-top: 5vmin;
+    font-size: 4vmin;
+  }
