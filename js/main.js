@@ -33,7 +33,7 @@ function init() {
         for (let c = 0; c < columns; c++) { // double for loop to create grid
 
 
-            let tile = document.createElement("div");
+            let tile = document.createElement("div"); // creating tile div
             tile.id = r.toString() + "-" + c.toString(); // sets the coordinates
             tile.addEventListener("click", clickTile); 
             document.getElementById("minefield").append(tile); // attaches div to minefield 
@@ -45,7 +45,7 @@ function init() {
 };
 
 function setMinefield() {
-    mineLocation.push("2-2");
+    mineLocation.push("2-2"); // setting 'mines' at respective coordinates to test
     mineLocation.push("2-3");
     mineLocation.push("2-4");
     mineLocation.push("1-1");
@@ -60,7 +60,7 @@ function clickTile() {
 
     if (mineLocation.includes(tile.id)) {
         gameStatus = -1;
-        console.log ("Game Over");
+        console.log ("Game Over"); //checking if clicking on a mined tile works
     }
 
 };
