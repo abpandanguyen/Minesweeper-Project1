@@ -67,7 +67,7 @@ function clickTile(evt) {
     });
     
     if (minefieldTile[index].isMine == true) {
-        evt.target.style.background = "/Users/anthonynguyen/code/Minesweeper-Project1/imgs/mine.png";
+        evt.target.style.backgroundColor = "red";
         console.log ("Game Over"); //checking if clicking on a mined tile works
     }
 };
