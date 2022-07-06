@@ -20,13 +20,13 @@ var minefieldTimer;
 var clickedTiles;
 
 /*----- cached element references -----*/
-
+const resetButton = document.querySelector("button");
 
 
 
 /*----- event listeners -----*/
 document.getElementById("minefield").addEventListener('click', clickTile);
-document.getElementById("restart").addEventListener('click', init);
+resetButton.addEventListener('click', init);
 
 
 
@@ -34,7 +34,7 @@ document.getElementById("restart").addEventListener('click', init);
 init();
 
 function init() {
-    document.getElementById("restart").innerText = "Reset";
+    resetButton.innerText = "Reset";
     for (let r = 0; r < rows; r++) { 
         for (let c = 0; c < columns; c++) { // double for loop to fill grid
             let tile = {isMine: false, adjacentMineCount: 0, clicked: false}; //id property is connected to the html grid
@@ -133,14 +133,14 @@ function clickTile(evt) {
         evt.target.innerText = "💣";
         showMines();
         // document.getElementById("restart").innerText = "Try again?"
-        alert ("Game Over"); //checking if clicking on a mined tile works
+        resetButton.innerText = "Game over! Play again?"; //checking if clicking on a mined tile works
     } else if (minefieldTile[r][c].clicked == false) { //guard else to differentiate clicked and mine from unclicked
         evt.target.style.backgroundColor = "grey";
         evt.target.innerText = minefieldTile[r][c].adjacentMineCount;
         minefieldTile[r][c].clicked = true;
         clickedTiles++;
         if (clickedTiles == 54){
-            alert("You win!")
+            resetButton.innerText = "You win! Play again?";
         }
     }
 };
