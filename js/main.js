@@ -24,7 +24,6 @@ var clickedTiles;
 
 
 
-
 /*----- event listeners -----*/
 document.getElementById("minefield").addEventListener('click', clickTile);
 document.getElementById("restart").addEventListener('click', init);
@@ -41,7 +40,7 @@ function init() {
             minefieldTile[r][c] = tile;
             let div = document.getElementById(`${r}-${c}`);
             div.style.backgroundColor = "white";
-            div.innerHTML = "";
+            // div.innerText = "";
         }
     }
     setMinefield();    
@@ -130,11 +129,12 @@ function clickTile(evt) {
     let c = id[1];
     if (minefieldTile[r][c].isMine == true) {
         evt.target.style.backgroundColor = "red";
+        evt.target.innerText = "💣";
         showMines();
         alert ("Game Over"); //checking if clicking on a mined tile works
     } else if (minefieldTile[r][c].clicked == false) { //guard else to differentiate clicked and mine from unclicked
         evt.target.style.backgroundColor = "grey";
-        evt.target.innerHTML = minefieldTile[r][c].adjacentMineCount;
+        evt.target.innerText = minefieldTile[r][c].adjacentMineCount;
         minefieldTile[r][c].clicked = true;
         clickedTiles++;
         if (clickedTiles == 54){
@@ -150,6 +150,7 @@ function showMines() {
             if (minefieldTile[r][c].isMine == true) {
                 let div = document.getElementById(`${r}-${c}`) //using newly filtered array and using for loop to set all backgrounds to red aka mine
                 div.style.backgroundColor = "red";
+                div.innerText = "💣";
             }
         }
     }   
