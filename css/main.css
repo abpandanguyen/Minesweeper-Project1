@@ -23,6 +23,9 @@ body {
     align-items: center;
   }
 
+  div > img {
+    width: 25px;
+  }
   
   button {
     margin-top: 5vmin;
