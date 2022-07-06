@@ -17,6 +17,7 @@ var minefieldTile = [
     [null, null, null, null, null, null, null, null],
 ];
 var minefieldTimer;
+var clickedTiles;
 
 /*----- cached element references -----*/
 
@@ -26,7 +27,7 @@ var minefieldTimer;
 
 /*----- event listeners -----*/
 document.getElementById("minefield").addEventListener('click', clickTile);
-
+document.getElementById("restart").addEventListener('click', init);
 
 
 
@@ -36,14 +37,17 @@ init();
 function init() {
     for (let r = 0; r < rows; r++) { 
         for (let c = 0; c < columns; c++) { // double for loop to fill grid
-            let tile = {isMine: false, adjacentMineCount: 0, flagged: false, clicked: false}; //id property is connected to the html grid
+            let tile = {isMine: false, adjacentMineCount: 0, clicked: false}; //id property is connected to the html grid
             minefieldTile[r][c] = tile;
+            let div = document.getElementById(`${r}-${c}`);
+            div.style.backgroundColor = "white";
+            div.innerHTML = "";
         }
     }
     setMinefield();    
-    render();
+    setAdjacentMineCount();
+    clickedTiles = 0;
 };
-
 
 
 function setMinefield() {
@@ -57,7 +61,67 @@ function setMinefield() {
         }
     }
     console.log (minefieldTile);        
+};
+
+function setAdjacentMineCount() {
+        for (let r = 0; r < rows; r++) { 
+            for (let c = 0; c < columns; c++) {
+                mineCounter(r, c);                
+        }
+    }
+};
+
+function mineCounter(r, c) { // function to check each adjacent cell
+    let topRow = r-1;
+    let topColumn = c;
+
+    let topLeftRow = r-1;
+    let topLeftColumn = c-1;
+
+    let topRightRow = r-1;
+    let topRightColumn = c+1;
+
+    let leftRow = r;
+    let leftColumn = c-1;
+
+    let rightRow = r;
+    let rightColumn = c+1;
+
+    let bottomRow = r+1;
+    let bottomColumn = c;
+
+    let bottomLeftRow = r+1;
+    let bottomLeftColumn = c-1;
+
+    let bottomRightRow = r+1;
+    let bottomRightColumn = c+1;
+
+    let mineCounter = 0;
+
+    mineCounter += checkCoord(topRow, topColumn);
+    mineCounter += checkCoord(topLeftRow, topLeftColumn);
+    mineCounter += checkCoord(topRightRow, topRightColumn);
+    mineCounter += checkCoord(leftRow, leftColumn);
+    mineCounter += checkCoord(rightRow, rightColumn);
+    mineCounter += checkCoord(bottomRow, bottomColumn);
+    mineCounter += checkCoord(bottomLeftRow, bottomLeftColumn);
+    mineCounter += checkCoord(bottomRightRow, bottomRightColumn);
+
+    minefieldTile[r][c].adjacentMineCount = mineCounter;
 }
+
+function checkCoord(r, c) {
+    //a guard function
+    let count = 0;
+    if (r < 0 || r > (rows-1) || c < 0 || c > (columns-1)) {
+        return 0;
+    }
+    if (minefieldTile[r][c].isMine == true) {
+        count++;
+    }
+    return count;
+};
+
 
 function clickTile(evt) {
     let tile = evt.target; 
@@ -67,11 +131,17 @@ function clickTile(evt) {
     if (minefieldTile[r][c].isMine == true) {
         evt.target.style.backgroundColor = "red";
         showMines();
-        console.log ("Game Over"); //checking if clicking on a mined tile works
-    } else {
-        checkMine();
+        alert ("Game Over"); //checking if clicking on a mined tile works
+    } else if (minefieldTile[r][c].clicked == false) { //guard else to differentiate clicked and mine from unclicked
+        evt.target.style.backgroundColor = "grey";
+        evt.target.innerHTML = minefieldTile[r][c].adjacentMineCount;
+        minefieldTile[r][c].clicked = true;
+        clickedTiles++;
+        if (clickedTiles == 54){
+            alert("You win!")
+        }
     }
-}
+};
 
 
 function showMines() {
@@ -83,20 +153,8 @@ function showMines() {
             }
         }
     }   
-}
-
-function checkMine(evt) {
-}
-
-// function checkTile() {
-//     let mines = minefieldTile.filter(function(value) {
-//         return value.isMine == true
-//     });
-// };
-    
-
-
-
-function render() {
-
 };
+
+
+
+
