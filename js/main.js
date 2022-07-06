@@ -34,16 +34,17 @@ document.getElementById("restart").addEventListener('click', init);
 init();
 
 function init() {
+    document.getElementById("restart").innerText = "Reset";
     for (let r = 0; r < rows; r++) { 
         for (let c = 0; c < columns; c++) { // double for loop to fill grid
             let tile = {isMine: false, adjacentMineCount: 0, clicked: false}; //id property is connected to the html grid
             minefieldTile[r][c] = tile;
             let div = document.getElementById(`${r}-${c}`);
             div.style.backgroundColor = "white";
-            // div.innerText = "";
+            div.innerText = "";
         }
     }
-    setMinefield();    
+    setMinefield();
     setAdjacentMineCount();
     clickedTiles = 0;
 };
@@ -59,7 +60,7 @@ function setMinefield() {
             minefieldTile[r][c].isMine = true; // function found index so we can modify target array value appropriately
         }
     }
-    console.log (minefieldTile);        
+    // console.log (minefieldTile);        
 };
 
 function setAdjacentMineCount() {
@@ -131,6 +132,7 @@ function clickTile(evt) {
         evt.target.style.backgroundColor = "red";
         evt.target.innerText = "💣";
         showMines();
+        // document.getElementById("restart").innerText = "Try again?"
         alert ("Game Over"); //checking if clicking on a mined tile works
     } else if (minefieldTile[r][c].clicked == false) { //guard else to differentiate clicked and mine from unclicked
         evt.target.style.backgroundColor = "grey";
