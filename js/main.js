@@ -111,8 +111,7 @@ function mineCounter(r, c) { // function to check each adjacent cell
 }
 
 function checkCoord(r, c) {
-    //a guard function
-    let count = 0;
+    let count = 0; //a guard function
     if (r < 0 || r > (rows-1) || c < 0 || c > (columns-1)) {
         return 0;
     }
