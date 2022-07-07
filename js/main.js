@@ -16,7 +16,6 @@ var minefieldTile = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
 ];
-var minefieldTimer;
 var clickedTiles;
 
 /*----- cached element references -----*/
@@ -26,7 +25,7 @@ const minefield = document.getElementById("minefield");
 
 /*----- event listeners -----*/
 minefield.addEventListener('click', clickTile);
-// minefield.addEventListener('contextmenu', clickFlag);
+minefield.addEventListener('contextmenu', clickFlag);
 resetButton.addEventListener('click', init);
 
 
@@ -134,7 +133,6 @@ function clickTile(evt) {
         if (minefieldTile[r][c].isMine == true) {
             evt.target.style.backgroundColor = "red";
             evt.target.innerHTML = "<img src='imgs/mine.png'>";
-            // evt.target.innerText = "💣";
             showMines();
             resetButton.innerText = "Game over! Play again?"; //checking if clicking on a mined tile works
         } else if (minefieldTile[r][c].clicked == false) { //guard else to differentiate clicked and mine from unclicked
@@ -150,21 +148,30 @@ function clickTile(evt) {
     }
 };
 
-// function clickFlag(evt){
-//     let tile = evt.target;
-//     let id = evt.target.id.split('-');
-//     let r = id[0];
-//     let c = id[1];
-//     if (gameStatus == false) {
-//         if (minefieldTile[r][c].flagStatus == false) {
-//             evt.target.innerHTML = "<img src='imgs/flag.png'>";
-//             evt.target.flagStatus = true;
-//         } else if (minefieldTile[r][c].flagStatus == true) {
-//             evt.target.innerHTML ="<img src=''>";
-//             evt.target.flagStatus = false;
-//         }
-//     }
-// };
+function clickFlag(evt){
+    evt.preventDefault();
+    let id = "";
+    let div = null;
+    if(evt.target.nodeName == "IMG") {
+        div = evt.target.parentElement;
+    }
+    else {
+        div = evt.target;
+    }
+    id = div.id.split('-');
+    let r = id[0];
+    let c = id[1];
+    if(gameStatus == false) {
+        if(minefieldTile[r][c].flagStatus == false) {
+            div.innerHTML = "<img src='imgs/flag.png'>";
+            minefieldTile[r][c].flagStatus = true;
+        }
+        else {
+            div.innerHTML = "<img src=''>";
+            minefieldTile[r][c].flagStatus = false;
+        }
+    }
+};
 
 
 function showMines() {
@@ -175,7 +182,6 @@ function showMines() {
                 let div = document.getElementById(`${r}-${c}`) //using newly filtered array and using for loop to set all backgrounds to red aka mine
                 div.style.backgroundColor = "red";
                 div.innerHTML="<img src='imgs/mine.png'>";
-                // div.innerText = "💣";
             }
         }
     }   
