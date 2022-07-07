@@ -24,6 +24,7 @@
 |------------ | ------------|
 | <h3 align="center">Game Over!</h3> | <img src="https://github.com/abpandanguyen/Minesweeper-Project1/blob/main/screenshots/GameOver.png" width="500"/> |
 | <h3 align="center">Victory</h3> | <img src="https://github.com/abpandanguyen/Minesweeper-Project1/blob/main/screenshots/Victory.png" width="500"/> |
+| <h3 align="center">In Play</h3> | <img src="https://github.com/abpandanguyen/Minesweeper-Project1/blob/main/screenshots/InPlay.png" width="500"/> |
 </details>
 
 ## Technologies Used 
