@@ -50,7 +50,7 @@
 
 - [ ] Add timer to the game when the browser opens up.
 
-- [ ] Possibly rewrite setMinefield function in order to prevent game over on first click 
+- [ ] Possibly rewrite setMinefield/clickTile function in order to prevent game over on first click 
 
 - [ ] Update to more modern minesweeper versions where initial click will also reveal all unmined tiles in an area around first clicked tile.
 
