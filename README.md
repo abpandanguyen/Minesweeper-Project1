@@ -18,7 +18,7 @@
 </details>
 
 <details open>
-<summary> :video_games: The Game!</summary>
+<summary> :video_game: The Game!</summary>
 
 | Description | Screenshot |
 |------------ | ------------|
@@ -36,3 +36,21 @@
 ![Markdown](https://img.shields.io/badge/-Markdown-333?style=flat&logo=markdown)
 
 <h1>Instructions</h1>
+
+<ol>
+<li>The goal is to left click on all unmined tiles. Left click anywhere on the board to reveal a tile and get started.</li>
+<li>If it's a mine, that's an unlucky game over :frowning_face:. Otherwise, it will reveal a number that will tell the player how many mines are adjacent to that tile including in any direction.</li>
+<li>Once a non-mine tile is revealed, the player can choose to either continue trying to reveal tiles around it with left click or attempt to mark unclicked tiles with a flag by using right-click. Flagging is no guarantee of an empty tile!</li>
+<li>The player should gradually try and work their way to left clicking all unmined tiles to achieve victory.</li>
+</ol>
+
+## :fast_forward: Next Steps   
+
+### Upcoming Features
+
+- [ ] Add timer to the game when the browser opens up.
+
+- [ ] Possibly rewrite setMinefield function in order to prevent game over on first click 
+
+- [ ] Update to more modern minesweeper versions where initial click will also reveal all unmined tiles in an area around first clicked tile.
+
