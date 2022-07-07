@@ -60,8 +60,7 @@ function setMinefield() {
             minesRemain --;
             minefieldTile[r][c].isMine = true; // function found index so we can modify target array value appropriately
         }
-    }
-    console.log (minefieldTile);        
+    }        
 };
 
 function setAdjacentMineCount() {
