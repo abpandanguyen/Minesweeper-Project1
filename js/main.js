@@ -5,8 +5,8 @@ const rows = 8;
 
 
 /*----- app's state (variables) -----*/
-var gameStatus = false; // false is game in play, true is game over whether win or lose
-var minefieldTile = [
+let gameStatus = false; // false is game in play, true is game over whether win or lose
+let minefieldTile = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -16,7 +16,7 @@ var minefieldTile = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
 ];
-var clickedTiles;
+let clickedTiles;
 
 /*----- cached element references -----*/
 const resetButton = document.querySelector("button");
@@ -45,13 +45,13 @@ function init() {
             div.innerText = "";
         }
     }
-    setMinefield();
+    renderMinefield();
     setAdjacentMineCount();
     clickedTiles = 0;
 };
 
 
-function setMinefield() {
+function renderMinefield() {
     let minesRemain = mineCount // declaring new variable
     while (minesRemain > 0) { // while makes sure the loop continues until condition met
         let r = Math.floor(Math.random()*rows); 
