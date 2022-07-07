@@ -152,7 +152,9 @@ function clickFlag(evt){
     evt.preventDefault();
     let id = "";
     let div = null;
-    if(evt.target.nodeName == "IMG") {
+    if(evt.target.nodeName == "IMG") { 
+        //was originally img, but was getting an error 
+        //until I inspected and realizing nodeName was IMG
         div = evt.target.parentElement;
     }
     else {
