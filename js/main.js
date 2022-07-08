@@ -111,7 +111,7 @@ function mineCounter(r, c) { // function to check each adjacent cell
 }
 
 function checkCoord(r, c) {
-    let count = 0; //a guard function
+    let count = 0; //guard statement
     if (r < 0 || r > (rows-1) || c < 0 || c > (columns-1)) {
         return 0;
     }
@@ -152,7 +152,7 @@ function clickFlag(evt){
     let div = null;
     if(evt.target.nodeName == "IMG") { 
         //was originally img, but was getting an error 
-        //until I inspected and realizing nodeName was IMG
+        //until inspected and realizing nodeName was IMG
         div = evt.target.parentElement;
     }
     else {
