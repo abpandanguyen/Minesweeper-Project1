@@ -53,7 +53,5 @@
 
 - [ ] Possibly rewrite setMinefield/clickTile function in order to prevent game over on first click 
 
-- [ ] Update to more modern minesweeper versions where initial click will also reveal all unmined tiles in an area around first clicked tile.
-
 - [ ] add buttons/functions to change grid size and minecount without having to change hardcoding every time (html) 
 

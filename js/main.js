@@ -16,7 +16,7 @@ let minefieldTile = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
 ];
-let clickedTiles;
+let winningTiles = 0;
 
 /*----- cached element references -----*/
 const resetButton = document.querySelector("button");
@@ -35,19 +35,21 @@ init();
 
 function init() {
     gameStatus = false;
+    winningTiles = 0;
     resetButton.innerText = "Reset";
     for (let r = 0; r < rows; r++) { 
         for (let c = 0; c < columns; c++) { // double for loop to fill grid
-            let tile = {isMine: false, adjacentMineCount: 0, clicked: false, flagStatus: false}; //id property is connected to the html grid
+            let tile = {isMine: false, adjacentMineCount: 0, clicked: false, flagStatus: false, revealed: false}; //id property is connected to the html grid
             minefieldTile[r][c] = tile;
             let div = document.getElementById(`${r}-${c}`);
             div.style.backgroundColor = "white";
             div.innerText = "";
+            div.style.border = "2px solid black";
         }
     }
     renderMinefield();
     setAdjacentMineCount();
-    clickedTiles = 0;
+    console.log (minefieldTile);
 };
 
 
@@ -66,12 +68,12 @@ function renderMinefield() {
 function setAdjacentMineCount() {
         for (let r = 0; r < rows; r++) { 
             for (let c = 0; c < columns; c++) {
-                mineCounter(r, c);                
+                mineChecker(r, c);                
         }
     }
 };
 
-function mineCounter(r, c) { // function to check each adjacent cell
+function mineChecker(r, c) { // function to check each adjacent cell
     let topRow = r-1;
     let topColumn = c;
 
@@ -98,24 +100,25 @@ function mineCounter(r, c) { // function to check each adjacent cell
 
     let mineCounter = 0;
 
-    mineCounter += checkCoord(topRow, topColumn);
-    mineCounter += checkCoord(topLeftRow, topLeftColumn);
-    mineCounter += checkCoord(topRightRow, topRightColumn);
-    mineCounter += checkCoord(leftRow, leftColumn);
-    mineCounter += checkCoord(rightRow, rightColumn);
-    mineCounter += checkCoord(bottomRow, bottomColumn);
-    mineCounter += checkCoord(bottomLeftRow, bottomLeftColumn);
-    mineCounter += checkCoord(bottomRightRow, bottomRightColumn);
+    mineCounter += checkCount(topRow, topColumn);
+    mineCounter += checkCount(topLeftRow, topLeftColumn);
+    mineCounter += checkCount(topRightRow, topRightColumn);
+    mineCounter += checkCount(leftRow, leftColumn);
+    mineCounter += checkCount(rightRow, rightColumn);
+    mineCounter += checkCount(bottomRow, bottomColumn);
+    mineCounter += checkCount(bottomLeftRow, bottomLeftColumn);
+    mineCounter += checkCount(bottomRightRow, bottomRightColumn);
 
     minefieldTile[r][c].adjacentMineCount = mineCounter;
-}
+};
 
-function checkCoord(r, c) {
+function checkCount(r, c) {
     let count = 0; //guard statement
     if (r < 0 || r > (rows-1) || c < 0 || c > (columns-1)) {
         return 0;
     }
     if (minefieldTile[r][c].isMine == true) {
+        minefieldTile[r][c].revealed = true;
         count++;
     }
     return count;
@@ -134,17 +137,78 @@ function clickTile(evt) {
             showMines();
             resetButton.innerText = "Game over! Play again?"; //checking if clicking on a mined tile works
         } else if (minefieldTile[r][c].clicked == false) { //guard else to differentiate clicked and mine from unclicked
-            evt.target.style.backgroundColor = "grey";
-            evt.target.innerText = minefieldTile[r][c].adjacentMineCount;
-            minefieldTile[r][c].clicked = true;
-            clickedTiles++;
-            if (clickedTiles == 54){
-                resetButton.innerText = "You win! Play again?";
-                gameStatus = true;
+            minefieldTile[r][c].revealed = true;
+            if (minefieldTile[r][c].adjacentMineCount == 0) {
+                setZeroAdjacent(r, c);
+            } else {
+                evt.target.style.backgroundColor = "grey";
+                evt.target.innerText = minefieldTile[r][c].adjacentMineCount;
             }
+            winningTiles++;
+            r = parseFloat(r);
+            c = parseFloat(c);
+            floodTiles(r, c);
+            youWin();
         } 
     }
 };
+
+function floodTiles(r, c) {
+    let topRow = r-1;
+    let topColumn = c;
+
+    let topLeftRow = r-1;
+    let topLeftColumn = c-1;
+
+    let topRightRow = r-1;
+    let topRightColumn = c+1;
+
+    let leftRow = r;
+    let leftColumn = c-1;
+
+    let rightRow = r;
+    let rightColumn = c+1;
+
+    let bottomRow = r+1;
+    let bottomColumn = c;
+
+    let bottomLeftRow = r+1;
+    let bottomLeftColumn = c-1;
+
+    let bottomRightRow = r+1;
+    let bottomRightColumn = c+1;
+
+    revealTile(topRow, topColumn);
+    revealTile(topLeftRow, topLeftColumn);
+    revealTile(topRightRow, topRightColumn);
+    revealTile(leftRow, leftColumn);
+    revealTile(rightRow, rightColumn);
+    revealTile(bottomRow, bottomColumn);
+    revealTile(bottomLeftRow, bottomLeftColumn);
+    revealTile(bottomRightRow, bottomRightColumn);
+};
+
+function revealTile(r, c) {
+    let count = 0;
+    if (r < 0 || r > (rows-1) || c < 0 || c > (columns-1)) {
+        return 0;
+    }
+    if (minefieldTile[r][c].adjacentMineCount == 0 && minefieldTile[r][c].isMine == false) {
+        if (minefieldTile[r][c].revealed == false) { //changing style of 0 mine adjacent tiles without adding to count
+            winningTiles++;
+        }
+        minefieldTile[r][c].revealed = true;
+        minefieldTile[r][c].clicked = true;
+        setZeroAdjacent(r, c);
+    }
+    return count;
+};
+
+function setZeroAdjacent(r, c) {
+    document.getElementById(`${r}-${c}`).style.backgroundColor = "grey";
+    document.getElementById(`${r}-${c}`).style.border = "grey";
+    document.getElementById(`${r}-${c}`).innerText = "";
+}
 
 function clickFlag(evt){
     evt.preventDefault();
@@ -186,6 +250,15 @@ function showMines() {
         }
     }   
 };
+
+function youWin() {
+if (winningTiles == 54) {
+        resetButton.innerText = "You win! Play again?";
+        gameStatus = true;
+        showMines();
+    }
+};
+
 
 
 
