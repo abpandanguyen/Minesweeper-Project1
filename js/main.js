@@ -67,7 +67,7 @@ function renderMinefield() {
 function setAdjacentMineCount() {
         for (let r = 0; r < rows; r++) { 
             for (let c = 0; c < columns; c++) {
-                mineChecker(r, c);                
+                mineChecker(r, c);     
         }
     }
 };
@@ -145,6 +145,27 @@ function clickTile(evt) {
             } else {
                 evt.target.style.backgroundColor = "grey";
                 evt.target.innerText = minefieldTile[r][c].adjacentMineCount;
+                if (minefieldTile[r][c].adjacentMineCount == 1) {
+                    document.getElementById(`${r}-${c}`).style.color = "blue";
+                }          
+                if (minefieldTile[r][c].adjacentMineCount == 2) {
+                    document.getElementById(`${r}-${c}`).style.color = "green";
+                }          
+                if (minefieldTile[r][c].adjacentMineCount == 3) {
+                    document.getElementById(`${r}-${c}`).style.color = "red";
+                }          
+                if (minefieldTile[r][c].adjacentMineCount == 4) {
+                    document.getElementById(`${r}-${c}`).style.color = "purple";
+                }          
+                if (minefieldTile[r][c].adjacentMineCount == 5) {
+                    document.getElementById(`${r}-${c}`).style.color = "maroon";
+                }          
+                if (minefieldTile[r][c].adjacentMineCount == 6) {
+                    document.getElementById(`${r}-${c}`).style.color = "turquoise";
+                }          
+                if (minefieldTile[r][c].adjacentMineCount == 7) {
+                    document.getElementById(`${r}-${c}`).style.color = "magenta";
+                }          
             }
             winningTiles++;
             youWin();
