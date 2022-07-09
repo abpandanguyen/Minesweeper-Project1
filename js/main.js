@@ -49,7 +49,6 @@ function init() {
     }
     renderMinefield();
     setAdjacentMineCount();
-    console.log (minefieldTile);
 };
 
 
@@ -140,14 +139,14 @@ function clickTile(evt) {
             minefieldTile[r][c].revealed = true;
             if (minefieldTile[r][c].adjacentMineCount == 0) {
                 setZeroAdjacent(r, c);
+                r = parseFloat(r);
+                c = parseFloat(c);
+                floodTiles(r, c);
             } else {
                 evt.target.style.backgroundColor = "grey";
                 evt.target.innerText = minefieldTile[r][c].adjacentMineCount;
             }
             winningTiles++;
-            r = parseFloat(r);
-            c = parseFloat(c);
-            floodTiles(r, c);
             youWin();
         } 
     }
