@@ -35,6 +35,7 @@ init();
 
 function init() {
     gameStatus = false;
+    winningTiles = 0;
     resetButton.innerText = "Reset";
     for (let r = 0; r < rows; r++) { 
         for (let c = 0; c < columns; c++) { // double for loop to fill grid
@@ -48,7 +49,6 @@ function init() {
     }
     renderMinefield();
     setAdjacentMineCount();
-    winningTiles = 0;
     console.log (minefieldTile);
 };
 
@@ -137,11 +137,18 @@ function clickTile(evt) {
             showMines();
             resetButton.innerText = "Game over! Play again?"; //checking if clicking on a mined tile works
         } else if (minefieldTile[r][c].clicked == false) { //guard else to differentiate clicked and mine from unclicked
-            evt.target.style.backgroundColor = "grey";
-            evt.target.innerText = minefieldTile[r][c].adjacentMineCount;
+            minefieldTile[r][c].revealed = true;
+            if (minefieldTile[r][c].adjacentMineCount == 0) {
+                setZeroAdjacent(r, c);
+            } else {
+                evt.target.style.backgroundColor = "grey";
+                evt.target.innerText = minefieldTile[r][c].adjacentMineCount;
+            }
+            winningTiles++;
             r = parseFloat(r);
             c = parseFloat(c);
             floodTiles(r, c);
+            youWin();
         } 
     }
 };
@@ -187,14 +194,21 @@ function revealTile(r, c) {
         return 0;
     }
     if (minefieldTile[r][c].adjacentMineCount == 0 && minefieldTile[r][c].isMine == false) {
+        if (minefieldTile[r][c].revealed == false) { //changing style of 0 mine adjacent tiles without adding to count
+            winningTiles++;
+        }
         minefieldTile[r][c].revealed = true;
         minefieldTile[r][c].clicked = true;
-        document.getElementById(`${r}-${c}`).style.backgroundColor = "grey";
-        document.getElementById(`${r}-${c}`).style.border = "grey";
-        document.getElementById(`${r}-${c}`).innerText = "";
-        }
+        setZeroAdjacent(r, c);
+    }
     return count;
 };
+
+function setZeroAdjacent(r, c) {
+    document.getElementById(`${r}-${c}`).style.backgroundColor = "grey";
+    document.getElementById(`${r}-${c}`).style.border = "grey";
+    document.getElementById(`${r}-${c}`).innerText = "";
+}
 
 function clickFlag(evt){
     evt.preventDefault();
@@ -238,17 +252,13 @@ function showMines() {
 };
 
 function youWin() {
-    let revealedTiles = winningTiles
-    for (let r = 0; r < rows; r++) { 
-        for (let c = 0; c < columns; c++) {
-        if (minefieldTile[r][c].revealed == true) {
-            revealedTiles += winningTiles
-        } if (winningTiles == 5) 
-            resetButton.innerText = "You win! Play again?";
-            gameStatus = true;
-        }
+if (winningTiles == 54) {
+        resetButton.innerText = "You win! Play again?";
+        gameStatus = true;
+        showMines();
     }
 };
+
 
 
 

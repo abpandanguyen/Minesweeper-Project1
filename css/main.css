@@ -16,7 +16,7 @@ body {
   }
   
   #minefield > div {
-    border: solid black;
+    border: 2px solid black;
     cursor: pointer;
     display: flex;
     justify-content: center;
